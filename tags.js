@@ -2019,6 +2019,16 @@ class Tags {
   }
 
   /**
+   * Find if badge is present for a value (based on attribute)
+   * @param {string} value
+   * @returns {Boolean}
+   */
+  hasBadge(value) {
+    const escapedValue = CSS.escape(value);
+    return !!this._containerElement.querySelector("span[" + VALUE_ATTRIBUTE + '="' + escapedValue + '"]')
+  }
+
+  /**
    * @param {string} value
    * @returns {Object|null}
    */
@@ -2342,7 +2352,9 @@ class Tags {
     opt.setAttribute("selected", "selected");
     opt.selected = true;
 
-    this._createBadge(text, value, data);
+    if (!this.hasBadge(value)) {
+      this._createBadge(text, value, data);
+    }
 
     // Fire change event
     if (this._fireEvents) {
